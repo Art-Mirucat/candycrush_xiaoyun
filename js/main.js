@@ -6,6 +6,16 @@ class CandyCrushGame {
         this.screenHeight = this.canvas.height;
         this.assets = assets;
 
+        // Add volume controls
+        this.bgmVolume = 0.5; // Background music volume (0.0 to 1.0)
+        this.sfxVolume = 1.0; // Sound effects volume (0.0 to 1.0)
+
+        // Apply initial volumes
+        this.assets.sounds.bgm.volume = this.bgmVolume;
+        this.assets.sounds.match.volume = this.sfxVolume;
+        this.assets.sounds.special.volume = this.sfxVolume;
+        this.assets.sounds.swap.volume = this.sfxVolume;
+
         this.gameState = 'playing'; // 'playing', 'gameOver'
         this.board = new Board(this.assets, 8, 10, 70);
         this.ui = new UI(this.screenWidth, this.screenHeight);
@@ -79,7 +89,6 @@ class CandyCrushGame {
     }
 
     startGame() {
-        this.assets.sounds.bgm.play().catch(e => console.log("BGM play failed, user interaction needed."));
         requestAnimationFrame(this.gameLoop.bind(this));
     }
 
@@ -143,7 +152,6 @@ class CandyCrushGame {
 
     endGame() {
         this.gameState = 'gameOver';
-        this.assets.sounds.bgm.pause();
     }
 
     resetGame() {
@@ -152,7 +160,6 @@ class CandyCrushGame {
         this.board.initializeBoard();
         this.gameState = 'playing';
         this.assets.sounds.bgm.currentTime = 0;
-        this.assets.sounds.bgm.play().catch(e => console.log("BGM play failed, user interaction needed."));
     }
 }
 
